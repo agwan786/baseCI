@@ -9,6 +9,7 @@ class MY_Model extends CI_Model {
 	private $setData = array();
 	private $data = array();
 	public $getData = array();
+	private $siteLoad = array('db', 'load', 'form_validation');
 
 	public function __construct($id=''){
 		parent::__construct();
@@ -24,12 +25,14 @@ class MY_Model extends CI_Model {
 	}
 
 	public function __set($name, $value){
-		$this->foo[$name] = $value;
+		if(!in_array($name, $this->siteLoad))
+			$this->foo[$name] = $value;
+		else
+			return parent::__set($name, $value);
 	}
 
 	public function __get($name){
-		$siteLoad = array('db', 'load');
-		if(!in_array($name, $siteLoad))
+		if(!in_array($name, $this->siteLoad))
 			return $this->foo[$name];
 		else
 			return parent::__get($name);
@@ -61,10 +64,10 @@ class MY_Model extends CI_Model {
 	protected function add(){
 		$this->def($this->data);
 		if(empty($this->errors)){
-			try{
-				$this->db->insert($this->class, $this->setData);
-			}catch(Exception $e){
-				die($e->getMessage());		
+			if($this->db->insert($this->class, $this->setData)){
+			    die("DUPLICATE");
+			}else{
+				die($this->db->_error_message());
 			}
 		}else{
 			$strErr = '';
