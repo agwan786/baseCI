@@ -1,0 +1,2 @@
+# baseCI
+Basic Codeigniter project
