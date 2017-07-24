@@ -21,13 +21,17 @@ class Welcome extends CI_Controller {
 	public function index()
 	{
 		$this->load->model('customer');
-		$this->customer->fname = 'Altaf';
-		$this->customer->lname = 'Husain';
-		$this->customer->email = 'altaf.h@cisinlabs.com';
-		$this->customer->password = '123456';
-		$this->customer->status = '1';
-		$this->customer->date = date('Y-m-d H:i:s');
-		$this->customer->add();
+		$this->customer->where = array('email'=>'altaf.h@cisinlabs.com');
+		$dataExist = $this->customer->get();		
+		if(empty($dataExist)){
+			$this->customer->fname = 'Altaf';
+			$this->customer->lname = 'Husain';
+			$this->customer->email = 'altaf.h@cisinlabs.com';
+			$this->customer->password = '123456';
+			$this->customer->status = '1';
+			$this->customer->date = date('Y-m-d H:i:s');
+			$this->customer->add();
+		}
 		$this->load->view('welcome_message');
 	}
 }

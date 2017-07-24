@@ -64,8 +64,8 @@ class MY_Model extends CI_Model {
 	protected function add(){
 		$this->def($this->data);
 		if(empty($this->errors)){
-			if($this->db->insert($this->class, $this->setData)){
-			    die("DUPLICATE");
+			if($this->db->insert($this->class, $this->setData)){				
+			    return $this->db->insert_id();
 			}else{
 				die($this->db->_error_message());
 			}

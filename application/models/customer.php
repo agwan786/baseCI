@@ -22,4 +22,8 @@ class Customer extends MY_Model{
 	public function add(){
 		parent::add();
 	}
+
+	public function get(){
+		return parent::select();
+	}
 }
